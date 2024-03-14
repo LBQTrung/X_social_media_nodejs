@@ -1,5 +1,8 @@
+import { error } from 'console'
 import { Request, Response, NextFunction } from 'express'
 import { checkSchema } from 'express-validator'
+import databaseService from '~/services/database.services'
+import userService from '~/services/users.services'
 
 export const loginValidator = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body
@@ -28,7 +31,17 @@ export const registerValidator = checkSchema({
   email: {
     notEmpty: true,
     isEmail: true,
-    trim: true
+    trim: true,
+    // Custom to check existed email
+    custom: {
+      options: async (value, { req }) => {
+        const isEmailExist = await userService.checkEmailExist(value)
+        if (isEmailExist) {
+          throw Error('Email already exists')
+        }
+        return true
+      }
+    }
   },
   password: {
     notEmpty: true,
@@ -52,25 +65,25 @@ export const registerValidator = checkSchema({
     }
   },
   confirm_password: {
-    // notEmpty: true,
-    // isString: true,
-    // isLength: {
-    //   options: {
-    //     min: 6,
-    //     max: 50
-    //   }
-    // },
-    // isStrongPassword: {
-    //   errorMessage:
-    //     'Confirm password must be at least 6 characters long and contains at least 1 lowercase, 1 uppercase, 1 number, 1 symbol',
-    //   options: {
-    //     minLength: 6,
-    //     minLowercase: 1,
-    //     minUppercase: 1,
-    //     minNumbers: 1,
-    //     minSymbols: 1
-    //   }
-    // },
+    notEmpty: true,
+    isString: true,
+    isLength: {
+      options: {
+        min: 6,
+        max: 50
+      }
+    },
+    isStrongPassword: {
+      errorMessage:
+        'Confirm password must be at least 6 characters long and contains at least 1 lowercase, 1 uppercase, 1 number, 1 symbol',
+      options: {
+        minLength: 6,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+      }
+    },
     custom: {
       options: (value, { req }) => {
         if (value !== req.body.password) {

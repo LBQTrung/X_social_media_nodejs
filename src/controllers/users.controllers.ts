@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import databaseService from '~/services/database.services'
-import User from '~/models/schemas/User.schema'
 import userService from '~/services/users.services'
+import { RegisterReqBody } from '~/models/schemas/requests/User.requests'
 
+import { ParamsDictionary } from 'express-serve-static-core'
 export const loginController = (req: Request, res: Response) => {
   const { email, password } = req.body
   if (email === 'trung@gmail.com' && password === '123456') {
@@ -15,16 +16,14 @@ export const loginController = (req: Request, res: Response) => {
   })
 }
 
-export const registerController = async (req: Request, res: Response) => {
-  const { email, password } = req.body
+export const registerController = async (req: Request<ParamsDictionary, any, RegisterReqBody>, res: Response) => {
   try {
-    const result = await userService.register({ email, password })
+    const result = await userService.register(req.body)
     return res.json({
       message: 'Register success',
       result
     })
   } catch (error) {
-    console.log(error)
     res.status(400).json({
       message: 'Login failed'
     })
