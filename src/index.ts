@@ -3,12 +3,12 @@ import express, { Request, Response, NextFunction } from 'express'
 import usersRouter from './routes/users.routes'
 
 import databaseService from './services/database.services'
+import { defaultErrorHandler } from './middlewares/error.middlewares'
 
 const app = express()
 const port = 3000
-app.use(express.json())
-
 databaseService.connect()
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -16,10 +16,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', usersRouter)
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log('Error:', err.message)
-  res.status(400).json({ error: err.message })
-})
+app.use(defaultErrorHandler)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
