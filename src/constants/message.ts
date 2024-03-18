@@ -26,5 +26,12 @@ export const USERS_MESSAGES = {
   CONFIRM_PASSWORD_MUST_BE_THE_SAME_AS_PASSWORD: 'Confirm password must be the same as password',
 
   // Validation Error: Date of birth field
-  DATE_OF_BIRTH_MUST_BE_IOS8601: 'Date of birth must be ISO8601'
+  DATE_OF_BIRTH_MUST_BE_IOS8601: 'Date of birth must be ISO8601',
+
+  // Login Validation Error
+  USER_NOT_FOUND: 'User not found',
+
+  // User constroller
+  LOGIN_SUCCESS: 'Login success',
+  REGISTER_SUCCESS: 'Register success'
 } as const
