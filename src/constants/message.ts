@@ -33,5 +33,8 @@ export const USERS_MESSAGES = {
 
   // User constroller
   LOGIN_SUCCESS: 'Login success',
-  REGISTER_SUCCESS: 'Register success'
+  REGISTER_SUCCESS: 'Register success',
+
+  // ACCESS TOKEN
+  ACCESS_TOKEN_IS_REQUIRED: 'Access token is required'
 } as const
