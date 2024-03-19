@@ -3,6 +3,7 @@ import { USERS_MESSAGES } from '~/constants/message'
 import { validate } from '~/utils/validation'
 import userService from '~/services/users.services'
 import databaseService from '~/services/database.services'
+import { hashPassword } from '~/utils/crypto'
 
 export const loginValidator = validate(
   checkSchema({
@@ -17,9 +18,9 @@ export const loginValidator = validate(
       // Custom to check existed email
       custom: {
         options: async (value, { req }) => {
-          const user = await databaseService.users.findOne({ email: value })
+          const user = await databaseService.users.findOne({ email: value, password: hashPassword(req.body.password) })
           if (!user) {
-            throw new Error(USERS_MESSAGES.USER_NOT_FOUND)
+            throw new Error(USERS_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT)
           }
           // If found user
           req.user = user

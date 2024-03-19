@@ -1,6 +1,7 @@
 import { Db, MongoClient, ServerApiVersion, Collection } from 'mongodb'
 import User from '~/models/schemas/User.schema'
 import dotenv from 'dotenv'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 dotenv.config()
 const username = process.env.DB_USERNAME
 const password = process.env.DB_PASSWORD
@@ -38,13 +39,11 @@ class DatabaseService {
   get users(): Collection<User> {
     // Để note được kiểu dữ liệu thì ta hover vào cái return thì vscode sẽ gợi ý
     // Vì ta đã tạo schema User -> Collection<User> rõ ràng hơn Collection<Document>
+    return this.db.collection(process.env.DB_USERS_COLLECTION as string)
+  }
 
-    try {
-      return this.db.collection(process.env.DB_USERS_COLLECTION as string)
-    } catch (error) {
-      console.log(error)
-      throw error
-    }
+  get refreshTokens(): Collection<RefreshToken> {
+    return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION as string)
   }
 }
 

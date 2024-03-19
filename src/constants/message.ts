@@ -29,7 +29,7 @@ export const USERS_MESSAGES = {
   DATE_OF_BIRTH_MUST_BE_IOS8601: 'Date of birth must be ISO8601',
 
   // Login Validation Error
-  USER_NOT_FOUND: 'User not found',
+  EMAIL_OR_PASSWORD_IS_INCORRECT: 'Email or password is incorrect',
 
   // User constroller
   LOGIN_SUCCESS: 'Login success',
