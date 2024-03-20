@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { ErrorWithStatus } from '~/models/schemas/Errors'
+import HTTP_STATUS from '~/constants/httpStatus'
+import { TokenPayLoad } from '~/models/schemas/requests/User.requests'
 
 dotenv.config()
 
@@ -29,12 +32,12 @@ export const verifyToken = ({
   token: string
   secretOrPublicKey?: string
 }) => {
-  return new Promise<jwt.JwtPayload>((resolve, reject) => {
+  return new Promise<TokenPayLoad>((resolve, reject) => {
     jwt.verify(token, secretOrPublicKey, (error, decoded) => {
       if (error) {
-        throw reject(error)
+        throw reject(new ErrorWithStatus({ message: error.message, status: HTTP_STATUS.UNAUTHORIZED }))
       }
-      resolve(decoded as jwt.JwtPayload)
+      resolve(decoded as TokenPayLoad)
     })
   })
 }
