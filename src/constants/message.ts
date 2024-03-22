@@ -1,6 +1,7 @@
 export const USERS_MESSAGES = {
   // General Error
   VALIDATION_ERROR: 'Validation error',
+  USER_NOT_FOUND: 'User not found',
 
   // Validation Error: Name field
   NAME_IS_REQUIRED: 'Name is required',
@@ -44,5 +45,10 @@ export const USERS_MESSAGES = {
   USED_REFRESH_TOKEN_OR_NOT_EXIST: 'Used refresh token or not exist',
 
   // Logout
-  USER_ID_OF_REFRESH_TOKEN_AND_ACCESS_TOKEN_NOT_MATCH: 'User id of refresh token and access token not match'
+  USER_ID_OF_REFRESH_TOKEN_AND_ACCESS_TOKEN_NOT_MATCH: 'User id of refresh token and access token not match',
+
+  // Email verify
+  EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
+  EMAIL_ALREADY_VERIFIED_BEFORE: 'Email already verified before',
+  EMAIL_VERIFY_SUCCESS: 'Email verify success'
 } as const
