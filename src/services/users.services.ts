@@ -107,22 +107,36 @@ class UsersService {
   async verifyEmail(user_id: string) {
     const [token] = await Promise.all([
       this.signAccessAndRefreshToken(user_id),
-      databaseService.users.updateOne(
-        { _id: new ObjectId(user_id) },
+      databaseService.users.updateOne({ _id: new ObjectId(user_id) }, [
         {
           $set: {
             email_verify_token: '',
             verify: UserVerifyStatus.Verified,
-            updated_at: new Date()
+            updated_at: '$$NOW'
           }
         }
-      )
+      ])
     ])
     const [access_token, refresh_token] = token
     return {
       access_token,
       refresh_token
     }
+  }
+
+  async resendVerifyEmail(user_id: string) {
+    // Logic Resend Email (Comming soon). At first, we pretend with console.log
+    const email_verify_token = await this.signEmailVerifyToken(user_id)
+    await databaseService.users.updateOne({ _id: new ObjectId(user_id) }, [
+      {
+        $set: {
+          email_verify_token: email_verify_token,
+          updated_at: '$$NOW'
+        }
+      }
+    ])
+    console.log('Resend Verify email for user:', email_verify_token)
+    return true
   }
 }
 

@@ -10,6 +10,15 @@ export interface RegisterReqBody {
   date_of_birth: string
 }
 
+export interface LoginReqBody {
+  email: string
+  password: string
+}
+
+export interface EmailReqBody {
+  email_verify_token: string
+}
+
 export interface TokenPayLoad extends JwtPayload {
   user_id: string
   token_type: TokenType
