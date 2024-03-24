@@ -3,6 +3,7 @@ import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
 import {
   EmailReqBody,
+  ForgotPasswordReqBody,
   LoginReqBody,
   LogoutRequestBody,
   RegisterReqBody,
@@ -15,6 +16,7 @@ import { ErrorWithStatus } from '~/models/schemas/Errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { MongoUnexpectedServerResponseError, ObjectId } from 'mongodb'
 import { UserVerifyStatus } from '~/constants/enums'
+import User from '~/models/schemas/User.schema'
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   const user = req.user
@@ -97,5 +99,18 @@ export const resendEmailVerifyController = async (req: Request, res: Response, n
   await userService.resendVerifyEmail(user_id)
   return res.json({
     message: USERS_MESSAGES.RESEND_VERIFY_EMAIL_SUCCESS
+  })
+}
+
+export const forgotPasswordController = async (
+  req: Request<ParamsDictionary, any, ForgotPasswordReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id } = req.user as User
+  await userService.forgotPassword((_id as ObjectId).toString())
+
+  return res.json({
+    message: USERS_MESSAGES.CHECK_EMAIL_TO_RESET_PASSWORD
   })
 }

@@ -49,6 +49,17 @@ class UsersService {
     })
   }
 
+  private signForgotPasswordToken(user_id: string) {
+    return signToken({
+      payload: {
+        user_id,
+        token_type: TokenType.ForgotPasswordToken
+      },
+      privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
+      options: { expiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN }
+    })
+  }
+
   async register(payload: RegisterReqBody) {
     const user_id = new ObjectId()
     const email_verify_token = await this.signEmailVerifyToken(user_id.toString())
@@ -136,6 +147,22 @@ class UsersService {
       }
     ])
     console.log('Resend Verify email for user:', email_verify_token)
+    return true
+  }
+
+  async forgotPassword(user_id: string) {
+    const forgot_password_token = await this.signForgotPasswordToken(user_id)
+    await databaseService.users.updateOne({ _id: new ObjectId(user_id) }, [
+      {
+        $set: {
+          forgot_password_token,
+          updated_at: '$$NOW'
+        }
+      }
+    ])
+    // Send email with link to reset password: "https://lebaquoctrung.com/forgot-password?token=token"
+    // Fake send email :))
+    console.log('forgot password token: ', forgot_password_token)
     return true
   }
 }
