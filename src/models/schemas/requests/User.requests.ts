@@ -1,5 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken'
-import { TokenType } from '~/constants/enums'
+import { TokenType, UserVerifyStatus } from '~/constants/enums'
 
 // Định nghĩa các interface user gửi lên
 export interface RegisterReqBody {
@@ -22,6 +22,7 @@ export interface EmailReqBody {
 export interface TokenPayLoad extends JwtPayload {
   user_id: string
   token_type: TokenType
+  verify: UserVerifyStatus
 }
 
 export interface LogoutRequestBody {

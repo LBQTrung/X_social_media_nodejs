@@ -7,9 +7,11 @@ import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
 import { ErrorWithStatus } from '~/models/schemas/Errors'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { Request } from 'express'
 import { ObjectId } from 'mongodb'
-
+import { TokenPayLoad } from '~/models/schemas/requests/User.requests'
+import { UserVerifyStatus } from '~/constants/enums'
+import { Request, Response, NextFunction } from 'express'
+import { Console } from 'console'
 const passwordSchema: ParamSchema = {
   notEmpty: {
     errorMessage: USERS_MESSAGES.PASSWORD_IS_REQUIRED
@@ -356,3 +358,17 @@ export const resetPasswordValidator = validate(
     ['body']
   )
 )
+
+// accessTokenValidator -> verifiedUserValidator
+export const verifiedUserValidator = (req: Request, res: Response, next: NextFunction) => {
+  const { verify } = req.decoded_authorization as TokenPayLoad
+  if (verify !== UserVerifyStatus.Verified) {
+    return next(
+      new ErrorWithStatus({
+        message: USERS_MESSAGES.USER_NOT_VERIFIED,
+        status: HTTP_STATUS.FORBIDDEN
+      })
+    )
+  }
+  next()
+}

@@ -14,7 +14,7 @@ export default class RefreshToken {
   user_id: ObjectId
 
   constructor({ _id, token, created_at, user_id }: RefreshTokenType) {
-    this._id = _id
+    this._id = _id || new ObjectId()
     this.token = token
     this.created_at = created_at || new Date()
     this.user_id = user_id

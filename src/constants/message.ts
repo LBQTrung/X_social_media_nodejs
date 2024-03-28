@@ -61,5 +61,6 @@ export const USERS_MESSAGES = {
   RESET_PASSWORD_SUCCESS: 'Reset password success',
 
   // Get me profile
-  GET_ME_SUCCESS: 'Get me success'
+  GET_ME_SUCCESS: 'Get me success',
+  USER_NOT_VERIFIED: 'User not verified'
 } as const

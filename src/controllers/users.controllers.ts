@@ -22,7 +22,8 @@ import User from '~/models/schemas/User.schema'
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   const user = req.user
   const user_id = user._id
-  const result = await userService.login(user_id)
+  const verify = user.verify as UserVerifyStatus
+  const result = await userService.login({ user_id, verify: verify })
   return res.json({
     message: USERS_MESSAGES.LOGIN_SUCCESS,
     result
@@ -108,8 +109,8 @@ export const forgotPasswordController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { _id } = req.user as User
-  await userService.forgotPassword((_id as ObjectId).toString())
+  const { _id, verify } = req.user as User
+  await userService.forgotPassword({ user_id: (_id as ObjectId).toString(), verify: verify })
 
   return res.json({
     message: USERS_MESSAGES.CHECK_EMAIL_TO_RESET_PASSWORD
@@ -143,5 +144,11 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
   return res.json({
     message: USERS_MESSAGES.GET_ME_SUCCESS,
     result: user
+  })
+}
+
+export const updateMeController = async (req: Request, res: Response, next: NextFunction) => {
+  return res.json({
+    message: 'Update profile success'
   })
 }
