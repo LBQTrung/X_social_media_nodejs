@@ -62,5 +62,22 @@ export const USERS_MESSAGES = {
 
   // Get me profile
   GET_ME_SUCCESS: 'Get me success',
-  USER_NOT_VERIFIED: 'User not verified'
+  USER_NOT_VERIFIED: 'User not verified',
+
+  // Update me profile
+  BIO_MUST_BE_STRING: 'Bio must be string',
+  BIO_LENGTH_MUST_BE_FROM_1_TO_200: 'Bio length must be from 1 to 200',
+  LOCATION_MUST_BE_STRING: 'Location must be string',
+  LOCATION_LENGTH_MUST_BE_FROM_1_TO_200: 'Location must be string',
+  WEBSITE_MUST_BE_A_URL: 'Website must be a url',
+  WEBSITE_MUST_BE_STRING: 'Website must be string',
+  WEBSITE_LENGTH_MUST_BE_FROM_1_TO_400: 'Website length must be from 1 to 400',
+  USERNAME_MUST_BE_STRING: 'Username must be a string',
+  USERNAME_LENGTH_MUST_BE_FROM_1_TO_50: 'Username length must be from 1 to 50',
+  AVATAR_MUST_BE_STRING: 'Avatar must be string',
+  AVATAR_LENGTH_MUST_BE_FROM_1_TO_400: 'Avatar length must be from 1 to 400',
+  AVATAR_MUST_BE_A_URL: 'Avatar must be a url',
+  COVER_PHOTO_MUST_BE_STRING: 'Cover photo must be string',
+  COVER_PHOTO_LENGTH_MUST_BE_FROM_1_TO_400: 'Cover photo length must be from 1 to 400',
+  COVER_PHOTO_MUST_BE_A_URL: 'Cover photo must be a url'
 } as const

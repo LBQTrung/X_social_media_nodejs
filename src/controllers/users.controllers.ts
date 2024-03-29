@@ -8,7 +8,8 @@ import {
   LogoutRequestBody,
   RegisterReqBody,
   ResetPasswordReqBody,
-  TokenPayLoad
+  TokenPayLoad,
+  UpdateMeReqBody
 } from '~/models/schemas/requests/User.requests'
 
 import { ParamsDictionary } from 'express-serve-static-core'
@@ -147,8 +148,16 @@ export const getMeController = async (req: Request, res: Response, next: NextFun
   })
 }
 
-export const updateMeController = async (req: Request, res: Response, next: NextFunction) => {
+export const updateMeController = async (
+  req: Request<ParamsDictionary, any, UpdateMeReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayLoad
+  const body = req.body
+  const user = await userService.updateMe(user_id, body)
   return res.json({
-    message: 'Update profile success'
+    message: 'Update profile success',
+    result: user
   })
 }
