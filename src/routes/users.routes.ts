@@ -24,6 +24,8 @@ import {
   updateMeController
 } from '~/controllers/users.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
+import { filterReqBodyMiddleware } from '~/middlewares/common.middlewares'
+import { UpdateMeReqBody } from '~/models/schemas/requests/User.requests'
 const usersRouter = Router()
 
 /**
@@ -118,6 +120,15 @@ usersRouter.patch(
   accessTokenValidator,
   verifiedUserValidator,
   updateMeValidator,
+  filterReqBodyMiddleware<UpdateMeReqBody>([
+    'name',
+    'date_of_birth',
+    'bio',
+    'location',
+    'username',
+    'avatar',
+    'cover_photo'
+  ]),
   wrapRequestHandler(updateMeController)
 )
 export default usersRouter

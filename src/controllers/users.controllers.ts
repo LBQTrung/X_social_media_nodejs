@@ -11,6 +11,7 @@ import {
   TokenPayLoad,
   UpdateMeReqBody
 } from '~/models/schemas/requests/User.requests'
+import { pick } from 'lodash'
 
 import { ParamsDictionary } from 'express-serve-static-core'
 import { USERS_MESSAGES } from '~/constants/message'
