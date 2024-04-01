@@ -1,5 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken'
 import { TokenType, UserVerifyStatus } from '~/constants/enums'
+import { ParamsDictionary } from 'express-serve-static-core'
+import { extend } from 'lodash'
 
 // Định nghĩa các interface user gửi lên
 export interface RegisterReqBody {
@@ -50,4 +52,8 @@ export interface UpdateMeReqBody {
 
 export interface FollowReqBody {
   followed_user_id: string
+}
+
+export interface UnfollowReqParams extends ParamsDictionary {
+  user_id: string
 }

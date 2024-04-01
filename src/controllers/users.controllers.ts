@@ -10,6 +10,7 @@ import {
   RegisterReqBody,
   ResetPasswordReqBody,
   TokenPayLoad,
+  UnfollowReqParams,
   UpdateMeReqBody
 } from '~/models/schemas/requests/User.requests'
 import { pick } from 'lodash'
@@ -177,5 +178,16 @@ export const followController = async (
   return res.json({
     message: USERS_MESSAGES.FOLLOW_SUCCESS,
     result: user
+  })
+}
+
+export const unfollowController = async (req: Request<UnfollowReqParams>, res: Response, next: NextFunction) => {
+  const { user_id } = req.decoded_authorization as TokenPayLoad
+  const { user_id: followed_user_id } = req.params
+
+  await userService.unfollow(user_id, followed_user_id)
+
+  return res.json({
+    message: USERS_MESSAGES.UNFOLLOW_SUCCESS
   })
 }

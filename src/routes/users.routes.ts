@@ -8,6 +8,7 @@ import {
   refreshTokenValidator,
   registerValidator,
   resetPasswordValidator,
+  unfollowValidator,
   updateMeValidator,
   verifiedUserValidator,
   verifyForgotPasswordTokenValidator
@@ -23,7 +24,8 @@ import {
   resetPasswordController,
   getMeController,
   updateMeController,
-  followController
+  followController,
+  unfollowController
 } from '~/controllers/users.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 import { filterReqBodyMiddleware } from '~/middlewares/common.middlewares'
@@ -147,5 +149,19 @@ usersRouter.post(
   verifiedUserValidator,
   followValidator,
   wrapRequestHandler(followController)
+)
+
+/**
+ * Description: Follow user
+ * Path: /follow/user_id
+ * Method: DELETE
+ * Header: { Authorization: Bearer <access_token> }
+ */
+usersRouter.delete(
+  '/follow/:user_id',
+  accessTokenValidator,
+  verifiedUserValidator,
+  unfollowValidator,
+  wrapRequestHandler(unfollowController)
 )
 export default usersRouter
