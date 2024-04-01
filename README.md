@@ -12,6 +12,7 @@
     <img src="https://img.shields.io/badge/Instagram-FED9ED?logo=instagram&logoColor=white">
   </a>
 </p>
+
 # Social Media Feature Clone Project
 
 This project aims to replicate several key features of the popular social media platform X. Currently, it includes functionalities such as login, register, logout, verify-email, forgot-password, and follow. The project is built using TypeScript, Node.js, and MongoDB.
@@ -45,9 +46,9 @@ This project aims to replicate several key features of the popular social media 
 3. **Set up Environment Variables(Update soon)**
 
 4. **Start the Server (For developemnt environment)**
-  ```bash
-  npm run dev
-  ```
+   ```bash
+   npm run dev
+   ```
 
 ## Notes
 - This is a basic clone, and more features can be developed
