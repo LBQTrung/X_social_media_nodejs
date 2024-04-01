@@ -79,5 +79,10 @@ export const USERS_MESSAGES = {
   AVATAR_MUST_BE_A_URL: 'Avatar must be a url',
   COVER_PHOTO_MUST_BE_STRING: 'Cover photo must be string',
   COVER_PHOTO_LENGTH_MUST_BE_FROM_1_TO_400: 'Cover photo length must be from 1 to 400',
-  COVER_PHOTO_MUST_BE_A_URL: 'Cover photo must be a url'
+  COVER_PHOTO_MUST_BE_A_URL: 'Cover photo must be a url',
+
+  // Follow user
+  FOLLOW_SUCCESS: 'Follow success',
+  INVALID_FOLLOWED_USER_ID: 'Invalid followed user id',
+  USER_HAS_BEEN_FOLLOWED_BEFORE: 'User has been followed before'
 } as const
