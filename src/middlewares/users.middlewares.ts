@@ -12,6 +12,7 @@ import { TokenPayLoad } from '~/models/schemas/requests/User.requests'
 import { UserVerifyStatus } from '~/constants/enums'
 import { Request, Response, NextFunction } from 'express'
 import { Console } from 'console'
+import { REGEX_USERNAME } from '~/constants/regex'
 const passwordSchema: ParamSchema = {
   notEmpty: {
     errorMessage: USERS_MESSAGES.PASSWORD_IS_REQUIRED
@@ -459,17 +460,19 @@ export const updateMeValidator = validate(
         trim: true,
         optional: true,
         isString: {
-          errorMessage: USERS_MESSAGES.LOCATION_MUST_BE_STRING
+          errorMessage: USERS_MESSAGES.USERNAME_MUST_BE_STRING
         },
-        isLength: {
-          options: {
-            min: 1,
-            max: 200
-          },
-          errorMessage: USERS_MESSAGES.LOCATION_LENGTH_MUST_BE_FROM_1_TO_200
-        },
-        isURL: {
-          errorMessage: USERS_MESSAGES.WEBSITE_MUST_BE_A_URL
+        custom: {
+          options: async (value: string, { req }) => {
+            if (!REGEX_USERNAME.test(value)) {
+              throw new Error(USERS_MESSAGES.USERNAME_IS_INVALID)
+            }
+
+            const user = await databaseService.users.findOne({ username: value })
+            if (user) {
+              throw new Error(USERS_MESSAGES.USERNAME_EXISTED)
+            }
+          }
         }
       },
       avatar: {
