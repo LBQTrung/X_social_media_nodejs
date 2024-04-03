@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
 import {
+  ChangePasswordReqBody,
   EmailReqBody,
   FollowReqBody,
   ForgotPasswordReqBody,
@@ -189,5 +190,20 @@ export const unfollowController = async (req: Request<UnfollowReqParams>, res: R
 
   return res.json({
     message: USERS_MESSAGES.UNFOLLOW_SUCCESS
+  })
+}
+
+export const changePasswordController = async (
+  req: Request<ParamsDictionary, any, ChangePasswordReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayLoad
+  const { password } = req.body
+
+  await userService.changePassword(user_id, password)
+
+  return res.json({
+    message: 'Change password success'
   })
 }
