@@ -27,7 +27,8 @@ import {
   updateMeController,
   followController,
   unfollowController,
-  changePasswordController
+  changePasswordController,
+  oauthController
 } from '~/controllers/users.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 import { filterReqBodyMiddleware } from '~/middlewares/common.middlewares'
@@ -41,6 +42,14 @@ const usersRouter = Router()
  * Body: { email: string, password: string }
  */
 usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
+
+/**
+ * Description: Google Login a user
+ * Path: /oauth/google
+ * Method: GET
+ * Body: { email: string, password: string }
+ */
+usersRouter.get('/oauth/google', wrapRequestHandler(oauthController))
 
 /**
  * Description: Register a new user

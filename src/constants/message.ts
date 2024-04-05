@@ -92,5 +92,8 @@ export const USERS_MESSAGES = {
 
   // Change Password
   INVALID_OLD_PASSWORD: 'Invalid old password',
-  CHANGE_PASSWORD_SUCCESS: 'Change password success'
+  CHANGE_PASSWORD_SUCCESS: 'Change password success',
+
+  // Google Login
+  GMAIL_NOT_VERIFIED: 'Gmail not verified'
 } as const
