@@ -1,13 +1,14 @@
 import { Request } from 'express'
-import formidable from 'formidable'
+import formidable, { File } from 'formidable'
 import fs from 'fs'
 import path from 'path'
 import { ErrorWithStatus } from './models/schemas/Errors'
 import HTTP_STATUS from './constants/httpStatus'
+import { UPLOAD_TEMP_DIR } from './constants/dir'
+
 export const initUploadFolder = () => {
-  const uploadFolderPath = path.resolve('uploads')
-  if (!fs.existsSync(uploadFolderPath)) {
-    fs.mkdirSync(uploadFolderPath, {
+  if (!fs.existsSync(UPLOAD_TEMP_DIR)) {
+    fs.mkdirSync(UPLOAD_TEMP_DIR, {
       recursive: true // For enabling to create nested folder
     })
   }
@@ -15,13 +16,13 @@ export const initUploadFolder = () => {
 
 export const handleUploadSingleImage = async (req: Request) => {
   const form = formidable({
-    uploadDir: path.resolve('uploads'),
+    uploadDir: UPLOAD_TEMP_DIR,
     maxFiles: 1,
     keepExtensions: true,
-    maxFileSize: 3000 * 1024, // 300KB,
+    maxFileSize: 300 * 1024, // 300KB,
     filter: ({ name, originalFilename, mimetype }) => {
       console.log({ name, originalFilename, mimetype })
-      const valid = name === 'image' && Boolean(mimetype?.includes('/image'))
+      const valid = name === 'image' && Boolean(mimetype?.includes('image'))
       if (!valid) {
         form.emit('error' as any, new Error('File type is not valid') as any)
       }
@@ -40,7 +41,19 @@ export const handleUploadSingleImage = async (req: Request) => {
             status: HTTP_STATUS.BAD_REQUEST
           })
         )
-      resolve(files)
+      resolve((files.image as File[])[0])
     })
   })
+}
+
+// Utils
+
+/**
+ * Input: test.txt
+ * @param fullname : string
+ * Output: test
+ */
+export const getNameFromFullname = (fullname: string) => {
+  const name = fullname.split('.')[0]
+  return name
 }
