@@ -47,7 +47,7 @@ usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
  * Description: Google Login a user
  * Path: /oauth/google
  * Method: GET
- * Body: { email: string, password: string }
+ * Query: { code: string }
  */
 usersRouter.get('/oauth/google', wrapRequestHandler(oauthController))
 
