@@ -17,8 +17,8 @@ class MediasService {
     // Delete temp image file
     fs.unlinkSync(file.filepath)
     return isProduction
-      ? `${process.env.HOST}/medias/${newFilename}` // Production media link
-      : `http://localhost:3000/uploads/${newFilename}.jpg` // Local media link
+      ? `${process.env.HOST}/static/${newFilename}.jpeg` // Production media link
+      : `http://localhost:4000/static/${newFilename}.jpeg` // Local media link
   }
 }
 

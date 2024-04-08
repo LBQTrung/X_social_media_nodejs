@@ -95,5 +95,8 @@ export const USERS_MESSAGES = {
   CHANGE_PASSWORD_SUCCESS: 'Change password success',
 
   // Google Login
-  GMAIL_NOT_VERIFIED: 'Gmail not verified'
+  GMAIL_NOT_VERIFIED: 'Gmail not verified',
+
+  // Media handler
+  UPLOAD__IMAGE_SUCCESSFULLY: 'Upload image successfully'
 } as const
