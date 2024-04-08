@@ -2,9 +2,9 @@ import { Request } from 'express'
 import formidable, { File } from 'formidable'
 import fs from 'fs'
 import path from 'path'
-import { ErrorWithStatus } from './models/schemas/Errors'
-import HTTP_STATUS from './constants/httpStatus'
-import { UPLOAD_TEMP_DIR } from './constants/dir'
+import { ErrorWithStatus } from '../models/schemas/Errors'
+import HTTP_STATUS from '../constants/httpStatus'
+import { UPLOAD_TEMP_DIR } from '../constants/dir'
 
 export const initUploadFolder = () => {
   if (!fs.existsSync(UPLOAD_TEMP_DIR)) {

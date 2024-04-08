@@ -5,11 +5,10 @@ import usersRouter from './routes/users.routes'
 import databaseService from './services/database.services'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
 import mediasRouter from './routes/medias.routes'
-import { initUploadFolder } from './file'
+import { initUploadFolder } from './utils/file'
 
 const app = express()
-const port = 4000
-
+const port = process.env.PORT || 4000
 // Create folder for upload files
 initUploadFolder()
 
