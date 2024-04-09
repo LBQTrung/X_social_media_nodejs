@@ -1,8 +1,8 @@
 import { Request } from 'express'
-import { getNameFromFullname, handleUploadImage } from '~/utils/file'
+import { getNameFromFullname, handleUploadImage, handleUploadVideo } from '~/utils/file'
 import sharp from 'sharp'
 import { File } from 'formidable'
-import { UPLOAD_DIR } from '~/constants/dir'
+import { UPLOAD_IMAGE_DIR } from '~/constants/dir'
 import path from 'path'
 import fs from 'fs'
 import { isProduction } from '~/utils/config'
@@ -16,7 +16,7 @@ class MediasService {
       files.map(async (file) => {
         {
           const newFilename = getNameFromFullname(file.newFilename)
-          const newPath = path.resolve(UPLOAD_DIR, `${newFilename}.jpeg`)
+          const newPath = path.resolve(UPLOAD_IMAGE_DIR, `${newFilename}.jpeg`)
           const info = await sharp(file.filepath).jpeg().toFile(newPath)
 
           // Delete temp image file
@@ -32,6 +32,18 @@ class MediasService {
     )
 
     return result
+  }
+
+  async handleUploadVideo(req: Request) {
+    const files = (await handleUploadVideo(req)) as File[]
+    const file = files[0]
+    // fs.unlinkSync(file.filepath)
+    return {
+      url: isProduction
+        ? `${process.env.HOST}/static/video/${file.newFilename}` // Production media link
+        : `http://localhost:${process.env.PORT}/static/video/${file.newFilename}`, // Local media link
+      type: MediaType.Video
+    }
   }
 }
 

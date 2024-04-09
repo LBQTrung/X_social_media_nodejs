@@ -6,7 +6,6 @@ import databaseService from './services/database.services'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
 import mediasRouter from './routes/medias.routes'
 import { initUploadFolder } from './utils/file'
-import { UPLOAD_DIR } from './constants/dir'
 import staticRouter from './routes/static.routes'
 
 const app = express()
