@@ -32,7 +32,7 @@ import {
 } from '~/controllers/users.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 import { filterReqBodyMiddleware } from '~/middlewares/common.middlewares'
-import { UpdateMeReqBody } from '~/models/schemas/requests/User.requests'
+import { UpdateMeReqBody } from '~/models/requests/User.requests'
 const usersRouter = Router()
 
 /**

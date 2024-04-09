@@ -13,12 +13,12 @@ import {
   TokenPayLoad,
   UnfollowReqParams,
   UpdateMeReqBody
-} from '~/models/schemas/requests/User.requests'
+} from '~/models/requests/User.requests'
 import { pick } from 'lodash'
 
 import { ParamsDictionary } from 'express-serve-static-core'
 import { USERS_MESSAGES } from '~/constants/message'
-import { ErrorWithStatus } from '~/models/schemas/Errors'
+import { ErrorWithStatus } from '~/models/Errors'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { MongoUnexpectedServerResponseError, ObjectId } from 'mongodb'
 import { UserVerifyStatus } from '~/constants/enums'

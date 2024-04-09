@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { TokenPayLoad } from './models/schemas/requests/User.requests'
+import { TokenPayLoad } from './models/requests/User.requests'
 
 declare module 'express' {
   interface Request {

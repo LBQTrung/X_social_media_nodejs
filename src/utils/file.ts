@@ -2,7 +2,7 @@ import { Request } from 'express'
 import formidable, { File } from 'formidable'
 import fs from 'fs'
 import path from 'path'
-import { ErrorWithStatus } from '../models/schemas/Errors'
+import { ErrorWithStatus } from '../models/Errors'
 import HTTP_STATUS from '../constants/httpStatus'
 import { UPLOAD_TEMP_DIR } from '../constants/dir'
 
@@ -14,12 +14,13 @@ export const initUploadFolder = () => {
   }
 }
 
-export const handleUploadSingleImage = async (req: Request) => {
+export const handleUploadImage = async (req: Request) => {
   const form = formidable({
     uploadDir: UPLOAD_TEMP_DIR,
-    maxFiles: 1,
+    maxFiles: 4,
     keepExtensions: true,
     maxFileSize: 300 * 1024, // 300KB,
+    maxTotalFileSize: 300 * 1024 * 4,
     filter: ({ name, originalFilename, mimetype }) => {
       console.log({ name, originalFilename, mimetype })
       const valid = name === 'image' && Boolean(mimetype?.includes('image'))
@@ -30,7 +31,7 @@ export const handleUploadSingleImage = async (req: Request) => {
     }
   })
 
-  return new Promise((resolve, reject) => {
+  return new Promise<File[]>((resolve, reject) => {
     form.parse(req, (err, fields, files) => {
       if (err) return reject(err)
       // eslint-disable-next-line no-extra-boolean-cast
@@ -41,7 +42,7 @@ export const handleUploadSingleImage = async (req: Request) => {
             status: HTTP_STATUS.BAD_REQUEST
           })
         )
-      resolve((files.image as File[])[0])
+      resolve(files.image as File[])
     })
   })
 }

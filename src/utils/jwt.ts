@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import { ErrorWithStatus } from '~/models/schemas/Errors'
+import { ErrorWithStatus } from '~/models/Errors'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { TokenPayLoad } from '~/models/schemas/requests/User.requests'
+import { TokenPayLoad } from '~/models/requests/User.requests'
 
 dotenv.config()
 

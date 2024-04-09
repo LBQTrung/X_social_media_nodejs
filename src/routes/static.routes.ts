@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { serveStaticImageController, uploadSingleImageController } from '~/controllers/medias.controllers'
+import { serveStaticImageController } from '~/controllers/medias.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const staticRouter = Router()
