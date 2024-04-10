@@ -54,7 +54,7 @@ export const handleUploadVideo = async (req: Request) => {
     uploadDir: UPLOAD_VIDEO_DIR,
     maxFiles: 1,
     keepExtensions: true,
-    maxFileSize: 25 * 1024 * 1024, // 25MB,
+    maxFileSize: 100 * 1024 * 1024, // 100MB,
     filter: ({ name, originalFilename, mimetype }) => {
       console.log({ name, originalFilename, mimetype })
       const valid = name === 'video' && Boolean(mimetype?.includes('mp4') || mimetype?.includes('quicktime'))
