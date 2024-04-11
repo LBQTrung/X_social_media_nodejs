@@ -8,6 +8,7 @@ import {
   ForgotPasswordReqBody,
   LoginReqBody,
   LogoutRequestBody,
+  RefreshTokenReqBody,
   RegisterReqBody,
   ResetPasswordReqBody,
   TokenPayLoad,
@@ -216,4 +217,28 @@ export const oauthController = async (req: Request, res: Response, next: NextFun
     result.access_token
   }&refresh_token=${result.refresh_token}&new_user=${result.newUser}`
   return res.redirect(urlRedirect)
+}
+
+export const refreshTokenController = async (
+  req: Request<ParamsDictionary, any, RefreshTokenReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id, verify } = req.decoded_refresh_token as TokenPayLoad
+
+  const { refresh_token } = req.body
+  const { new_access_token, new_refresh_token, insert_result } = await userService.refreshToken({
+    user_id,
+    verify,
+    refresh_token
+  })
+
+  return res.json({
+    message: USERS_MESSAGES.REFRESH_TOKEN_SUCCESSFULLY,
+    result: {
+      access_token: new_access_token,
+      refresh_token: new_refresh_token,
+      insert_result: insert_result
+    }
+  })
 }

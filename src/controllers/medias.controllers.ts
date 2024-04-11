@@ -55,32 +55,56 @@ export const serveVideoStreamController = async (req: Request, res: Response) =>
   const { name } = req.params
   const videoPath = path.resolve(UPLOAD_VIDEO_DIR, name)
 
-  // 1MB = 10^6 bytes (calculate according to decimal)
+  // Get video size efficiently
   const videoStats = await fs.promises.stat(videoPath)
   const videoSize = videoStats.size
 
-  // Part video of video
-  const chunkSize = 10 ** 6 // 1MB
-  // Get start byte value from range header
-  const start = Number(range.replace(/\D/g, ''))
-  // // Get end byte value from range header
-  const end = Math.min(start + chunkSize, videoSize - 1)
+  // Set appropriate chunk size (consider network conditions)
+  const chunkSize = Math.min(1024 * 1024, videoSize) // Adjust based on network conditions
 
-  // Dung lượng thực tế cho mỗi đoạn video stream
-  // Thông thường đây sẽ là chunkSize ngoại trừ đoạn cuối cùng
-  const contentLength = end - start + 1
+  // Parse range header (handle malformed headers gracefully)
+  const rangeParts = (req.headers.range as string).split('=')
+  if (rangeParts.length !== 2 || rangeParts[0] !== 'bytes') {
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
+      message: 'Invalid Range header format (bytes=start-end)'
+    })
+  }
 
-  // Dynamic import
+  const rangeValues = rangeParts[1].split('-')
+  const start = parseInt(rangeValues[0], 10)
+  const end = parseInt(rangeValues[1], 10) || videoSize - 1 // Default to last byte
+
+  // Validate requested byte range
+  if (isNaN(start) || isNaN(end) || start < 0 || end < start || end >= videoSize) {
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
+      message: 'Requested range is not satisfiable'
+    })
+  }
+
+  // Calculate actual content length for the stream
+  const contentLength = Math.min(end - start + 1, videoSize - start) // +1 for inclusive end byte
+
+  // Efficiently determine MIME type using pre-loaded database
   const mime = (await import('mime')).default
-  const contentType = mime.getType(videoPath) || 'video/*'
+  const mimeType = mime.getType(videoPath) || 'video/*' // Default to generic video type
 
+  // Set response headers
   const headers = {
     'Content-Range': `bytes ${start}-${end}/${videoSize}`,
     'Accept-Ranges': 'bytes',
     'Content-Length': contentLength,
-    'Content-Type': contentType
+    'Content-Type': mimeType
   }
   res.writeHead(HTTP_STATUS.PARTIAL_CONTENT, headers)
-  const videoStreams = fs.createReadStream(videoPath, { start, end })
-  videoStreams.pipe(res)
+
+  // Stream video efficiently using createReadStream with options
+  const videoStream = fs.createReadStream(videoPath, { start, end: end + 1 }) // +1 for inclusive end
+
+  // Handle potential errors during streaming
+  videoStream.on('error', (error) => {
+    console.error('Error streaming video:', error)
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).end()
+  })
+
+  videoStream.pipe(res) // Stream video data to the response
 }

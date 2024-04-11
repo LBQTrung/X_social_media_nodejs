@@ -28,7 +28,8 @@ import {
   followController,
   unfollowController,
   changePasswordController,
-  oauthController
+  oauthController,
+  refreshTokenController
 } from '~/controllers/users.controllers'
 import { wrapRequestHandler } from '~/utils/handlers'
 import { filterReqBodyMiddleware } from '~/middlewares/common.middlewares'
@@ -189,4 +190,12 @@ usersRouter.patch(
   changePasswordValidator,
   wrapRequestHandler(changePasswordController)
 )
+
+/**
+ * Description: Follow user
+ * Path: /refresh-token
+ * Method: POST
+ * Body: { refresh_token: string }
+ */
+usersRouter.post('/refresh-token', refreshTokenValidator, wrapRequestHandler(refreshTokenController))
 export default usersRouter
