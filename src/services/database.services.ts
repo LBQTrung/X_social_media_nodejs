@@ -37,6 +37,12 @@ class DatabaseService {
     }
   }
 
+  indexUsers() {
+    this.users.createIndex({ email: 1, password: 1 })
+    this.users.createIndex({ email: 1 }, { unique: true })
+    this.users.createIndex({ username: 1 }, { unique: true })
+  }
+
   get users(): Collection<User> {
     // Để note được kiểu dữ liệu thì ta hover vào cái return thì vscode sẽ gợi ý
     // Vì ta đã tạo schema User -> Collection<User> rõ ràng hơn Collection<Document>

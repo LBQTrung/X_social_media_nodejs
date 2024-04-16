@@ -82,6 +82,7 @@ class UsersService {
         ...payload,
         _id: user_id,
         email_verify_token: email_verify_token,
+        username: `user${user_id}`,
         // Because req send ISO string -> convert to Date
         date_of_birth: new Date(payload.date_of_birth),
         // hash password
