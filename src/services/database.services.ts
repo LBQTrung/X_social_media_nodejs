@@ -37,10 +37,26 @@ class DatabaseService {
     }
   }
 
-  indexUsers() {
-    this.users.createIndex({ email: 1, password: 1 })
-    this.users.createIndex({ email: 1 }, { unique: true })
-    this.users.createIndex({ username: 1 }, { unique: true })
+  async indexUsers() {
+    const exist = await this.users.indexExists(['email_1_password_1', 'email_1', 'username_1'])
+    if (!exist) {
+      this.users.createIndex({ email: 1, password: 1 })
+      this.users.createIndex({ email: 1 }, { unique: true })
+      this.users.createIndex({ username: 1 }, { unique: true })
+    }
+  }
+
+  async indexRefreshTokens() {
+    const exist = await this.users.indexExists(['token_1', 'exp_1'])
+    if (!exist) {
+      this.refreshTokens.createIndex({ token: 1 })
+      this.refreshTokens.createIndex(
+        { exp: 1 },
+        {
+          expireAfterSeconds: 0
+        }
+      )
+    }
   }
 
   get users(): Collection<User> {

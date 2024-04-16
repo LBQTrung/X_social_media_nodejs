@@ -224,13 +224,14 @@ export const refreshTokenController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { user_id, verify } = req.decoded_refresh_token as TokenPayLoad
+  const { user_id, verify, exp } = req.decoded_refresh_token as TokenPayLoad
 
   const { refresh_token } = req.body
   const { new_access_token, new_refresh_token, insert_result } = await userService.refreshToken({
     user_id,
     verify,
-    refresh_token
+    refresh_token,
+    exp
   })
 
   return res.json({

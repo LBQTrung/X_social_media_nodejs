@@ -16,6 +16,7 @@ initUploadFolder()
 
 databaseService.connect().then(() => {
   databaseService.indexUsers()
+  databaseService.indexRefreshTokens()
 })
 app.use(express.json())
 
