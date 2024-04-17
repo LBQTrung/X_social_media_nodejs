@@ -8,6 +8,7 @@ import mediasRouter from './routes/medias.routes'
 import { initUploadFolder } from './utils/file'
 import staticRouter from './routes/static.routes'
 import { UPLOAD_VIDEO_DIR } from './constants/dir'
+import tweetsRouter from './routes/tweets.routes'
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -28,6 +29,7 @@ app.use('/static/video', express.static(UPLOAD_VIDEO_DIR))
 app.use('/static', staticRouter)
 app.use('/user', usersRouter)
 app.use('/media', mediasRouter)
+app.use('/tweet', tweetsRouter)
 
 app.use(defaultErrorHandler)
 

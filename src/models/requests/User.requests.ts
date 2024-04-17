@@ -1,7 +1,8 @@
 import { JwtPayload } from 'jsonwebtoken'
-import { TokenType, UserVerifyStatus } from '~/constants/enums'
+import { TokenType, TweetAudience, TweetType, UserVerifyStatus } from '~/constants/enums'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { extend } from 'lodash'
+import { Media } from '../Other'
 
 // Định nghĩa các interface user gửi lên
 export interface RegisterReqBody {
@@ -68,4 +69,14 @@ export interface ChangePasswordReqBody {
 
 export interface RefreshTokenReqBody {
   refresh_token: string
+}
+
+export interface TweetRequestBody {
+  type: TweetType
+  audience: TweetAudience
+  content: string
+  parent_id: null | string
+  hashtags: string[]
+  mentions: string[]
+  medias: Media[]
 }
