@@ -8,12 +8,12 @@ interface TweetContructor {
   type: TweetType
   audience: TweetAudience
   content: string
-  parent_id: null | ObjectId // Chi null khi la tweet goc
+  parent_id: null | string // Chi null khi la tweet goc
   hashtags: ObjectId[] // Chua cac hashtags id -> ket hop giua ref va embed
-  mentions: ObjectId[]
+  mentions: string[]
   medias: Media[]
-  guest_views: number
-  user_views: number
+  guest_views?: number
+  user_views?: number
   create_at?: Date
   update_at?: Date
 }
@@ -53,12 +53,12 @@ export default class Tweet {
     this.type = type
     this.audience = audience
     this.content = content
-    this.parent_id = parent_id
+    this.parent_id = parent_id ? new ObjectId(parent_id) : null
     this.hashtags = hashtags
-    this.mentions = mentions
+    this.mentions = mentions.map((item) => new ObjectId(item))
     this.medias = medias
-    this.guest_views = guest_views
-    this.user_views = user_views
+    this.guest_views = guest_views || 0
+    this.user_views = user_views || 0
     this.create_at = create_at || date
     this.update_at = update_at || date
   }
