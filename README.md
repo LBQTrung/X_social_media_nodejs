@@ -43,7 +43,36 @@ This project aims to replicate several key features of the popular social media 
    cd X_social_media_nodejs
    npm install
    ```
-3. **Set up Environment Variables(Update soon)**
+3. **Set up Environment Variables**
+   - Create a  '.env' file in the root directory of the project
+   - Copy and paste the following variable into '.env' file:
+    ```bash
+   PORT=4000
+   HOST='your_production_host'
+   DB_USERNAME='your_username_of_database'
+   DB_PASSWORD='your_password_of_database'
+   DB_NAME='your_database_name'
+   DB_USERS_COLLECTION='users'
+   DB_REFRESH_TOKENS_COLLECTION='refresh_tokens'
+   DB_FOLLOWERS_COLLECTION='followers'
+   DB_TWEETS_COLLECTION='tweets'
+   DB_HASHTAGS_COLLECTION='hashtags'
+
+   PASSWORD_SECRET='your_password_secret'
+   JWT_SECRET_ACCESS_TOKEN='your_jwt_secret_access_token'
+   JWT_SECRET_REFRESH_TOKEN='your_jwt_secret_refresh_token'
+   JWT_SECRET_EMAIL_VERIFY_TOKEN='your_jwt_email_verify_token'
+   JWT_SECRET_FORGOT_PASSWORD_TOKEN='your_jwt_secret_forgot_password_token'
+   ACCESS_TOKEN_EXPIRES_IN='15m'
+   REFRESH_TOKEN_EXPIRES_IN='100d'
+   EMAIL_VERIFY_TOKEN_EXPIRES_IN='7d'
+   FORGOT_PASSWORD_TOKEN_EXPIRES_IN='7d'
+
+   GOOGLE_CLIENT_ID='your_google_client_id'
+   GOOGLE_CLIENT_SECRET='your_google_client_secret'
+   GOOGLE_REDIRECT_URI='http://localhost:4000/user/oauth/google'
+   CLIENT_REDIRECT_CALLBACK='your_client_redirect_callback'
+   ```
 
 4. **Start the Server (For developemnt environment)**
    ```bash
